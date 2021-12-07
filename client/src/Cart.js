@@ -284,6 +284,8 @@ function Cart() {
     <div>
       <Navbar />
     {mytransaction === null ? (
+      subtotal === 0 ? (<div><img src="./images/404-your-cart-is-empty.png" 
+      alt="empty cart" className={styles.empty}/></div>) : (
       <>
       <Modal show={map} onHide={handleMap}>
         <div className={styles.map}>
@@ -425,6 +427,7 @@ function Cart() {
         </form>
       </div>
       </>
+      )
     ):(<>
       <Modal show={map} onHide={handleMap}>
         <div className={styles.map}>
