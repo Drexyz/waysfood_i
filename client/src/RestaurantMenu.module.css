@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@800&display=swap');
+@font-face {
+    font-family: avenir;
+    src: url("./components/avenir_ff/AvenirLTStd-Book.otf") format("opentype");
+}
+
+.Restaurant h3 {
+    margin-top: 60px;
+    margin-left: 148px;
+    font-family: 'Abhaya Libre', serif;
+    font-weight: 800;
+    font-size: 36px;
+}
+.Restaurant .menus {
+    margin: 35px auto 35px auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 1070px;
+}
+.menus .menu {
+    background: #FFFFFF;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 11px 0 10px;
+    width: 245px;
+    height: 266px;
+    margin-bottom: 42px;
+}
+.menu img {
+    width: 224px;
+    height: 134px;
+    object-fit: contain;
+}
+.menu .menuName {
+    font-weight: 800;
+    font-size: 18px;
+    font-family: 'Abhaya Libre', serif;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+.menu .menuPrice {
+    font-family: avenir;
+    font-weight: 400;
+    font-size: 14px;
+    color: #FF1515;
+    margin-top: 6px;
+    margin-bottom: 0;
+}
+.menu button {
+    width: 224px;
+    height: 30px;
+    border: none;
+    background: #FFC700;
+    border-radius: 5px;
+    color: #433434;
+    font-family: avenir;
+    font-weight: 800;
+    font-size: 14px;
+}
+.Cart {
+    position: relative;
+}
+.Cart span{
+    top: 10px;
+}

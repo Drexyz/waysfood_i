@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.main {
+    height: 672px;
+    background: #E5E5E5;
+    padding-top: 59px;
+}
+
+/*Popular Restaurant*/
+.popResto{
+    margin: 0 auto;
+    width: 1045px;
+}
+.popResto h4{
+    margin-bottom: 30px;
+    font-family: 'Abhaya Libre', serif;
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 42px;
+    color: #000000;
+}
+.popResto .restaurant {
+    display: flex;
+    justify-content: space-between;
+}
+.restaurant div {
+    width: 250px;
+    height: 95px;
+    background: #FFFFFF;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    font-family: 'Abhaya Libre', serif;
+    font-weight: 800;
+    font-size: 24px;
+    color: #000000;
+}
+.restaurant div img{
+    width: 65px;
+    height: 65px;
+    margin-left: 16px;
+    margin-right: 19px;
+}
+
+/*Near Restaurant*/
+.nearResto{
+    margin: 91px auto;
+    width: 1045px;
+}
+.nearResto h4{
+    margin-bottom: 30px;
+    font-family: 'Abhaya Libre', serif;
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 42px;
+    color: #000000;
+}
+.nearResto .near-restaurant {
+    display: flex;
+    justify-content: space-between;
+}
+.near-restaurant div {
+    width: 245px;
+    height: 221px;
+    background: #FFFFFF;
+    border-radius: 5px;
+}
+.near-restaurant div img {
+    width: 224px;
+    height: 134px;
+    margin: 12px 11px 14px 10px;
+}
+.near-restaurant div p {
+    margin: 0 auto 0 16px;
+    font-family: 'Abhaya Libre', serif;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+}
+.near-restaurant .distance{
+    margin-top: 6px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    line-height: 19px;
+    font-weight: 200;
+}

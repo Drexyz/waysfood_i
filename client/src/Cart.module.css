@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@500&display=swap');
+@font-face {
+    font-family: avenir;
+    src: url("./components/avenir_ff/AvenirLTStd-Book.otf") format("opentype");
+}
+
+.restoName {
+    margin-top: 60px;
+    margin-left: 197px;
+}
+.locationInput {
+    margin-top: 30px;
+    margin-left: 197px;
+    width: 1044px;
+}
+.locationInput p {
+    color: #613D2B;
+    font-family: avenir;
+    font-size: 18px;
+}
+.locationInput input {
+    width: 804px;
+    height: 47px;
+    border: none;
+    background: #FFFFFF;
+    border-radius: 5px;
+    font-family: avenir;
+    font-weight: 400;
+    font-size: 14px;
+    padding-left: 15px;
+}
+.locationInput button {
+    width: 222px;
+    height: 47px;
+    background: #433434;
+    border-radius: 5px;
+    border: none;
+    font-family: avenir;
+    font-weight: 800;
+    font-size: 14px;
+    color: #FFFFFF;
+    margin-left: 18px;
+}
+.locationInput button img{
+    margin-left: 10px;
+}
+.lines {
+    display: flex;
+    width: 1044px;
+    justify-content: space-between;
+    margin-left: 197px;
+}
+.line1 {
+    width: 660px;
+    height: 0;
+    border: 1px solid #000000;
+}
+.line2 {
+    width: 350px;
+    height: 0;
+    border: 1px solid #000000;
+}
+.cart h5 {
+    font-family: avenir;
+    font-weight: 400;
+    font-size: 18px;
+    color: #613D2B;
+    margin-left: 197px;
+    margin-top: 23px;
+}
+.Order {
+    margin-left: 197px;
+    display: flex;
+    justify-content: space-between;
+    width: 1044px;
+}
+.menulist {
+  margin-bottom: 40px;
+}
+.menulist .menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 660px;
+}
+.menu .product {
+    display: flex;
+    margin-top: 17px;
+}
+.menu .price {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.product img {
+    width: 80px;
+    height: 80px;
+    margin-right: 13px;
+    margin-bottom: 22px;
+}
+.qty p {
+    font-weight: 800;
+    font-size: 16px;
+    font-family: 'Abhaya Libre', serif;
+    margin-top: 9px;
+}
+.qty input {
+    width: 30px;
+    height: 20px;
+    background: #F6E6DA;
+    border-radius: 5px;
+    border: none;
+    padding-left: 6px;
+    font-family: avenir;
+    font-weight: 400;
+    font-size: 14px;
+    color: #613D2B;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.qty button {
+    width: 12px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+.price p {
+    font-size: 14px;
+    color: #FF0000;
+    font-family: avenir;
+}
+.price a {
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+.Order .details {
+    margin-top: 14px;
+}
+.details .detail {
+    display: flex;
+    justify-content: space-between;
+}
+.details p {
+    margin-bottom: 12px;
+}
+.detail .nameDetail, .numberDetail {
+    font-family: avenir;
+    font-weight: 400;
+    font-size: 14px;
+}
+.detail .priceDetail {
+    font-family: avenir;
+    font-weight: 400;
+    font-size: 14px;
+    color: #FF0000;
+}
+.details .line2 {
+    margin-top: 6px;
+}
+.details .total {
+    display: flex;
+    justify-content: space-between;
+}
+.total p {
+    font-family: avenir;
+    font-weight: 800;
+    font-size: 14px;
+    color: #FF0000;
+}
+.orderBtn {
+    display: flex;
+    justify-content: flex-end;
+}
+.orderBtn button {
+    width: 260px;
+    height: 40px;
+    background: #433434;
+    border-radius: 5px;
+    border: none;
+    margin: 120px 0 50px 0;
+    font-family: 'Lexend Deca', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #FFFFFF;
+}
+.map {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, 0);
+}
+.map .box{
+    width: 419px;
+    height: 185px;
+    background: #FFFFFF;
+    box-shadow: 10px -12px 11px -6px rgba(0, 0, 0, 0.25);
+    border-radius: 5px 5px 0px 0px;
+    position: absolute;
+    bottom: 0;
+    left: 30%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.map .box2 {
+  width: 419px;
+  height: auto;
+  background: #FFFFFF;
+  box-shadow: 10px -12px 11px -6px rgba(0, 0, 0, 0.25);
+  border-radius: 5px 5px 0px 0px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  top: 13px;
+  right: 11px;
+}
+.box .titleBox, .box2 .titleBox {
+    font-weight: 900;
+    font-size: 18px;
+    font-family: avenir;
+}
+.box .direction, .box2 .direction {
+    display: flex;
+    align-items: center;
+}
+.direction img {
+    width: 55px;
+    height: 55px;
+    margin-right: 24px;
+}
+.direction .address {
+    display: flex;
+    flex-direction: column;
+    font-family: avenir;
+}
+.address .addressName {
+    font-weight: 900;
+    font-size: 13px;
+}
+.address .addressDetail {
+    font-size: 12px;
+}
+.box2 .deliveryTime {
+  margin-top: 43;
+  font-family: avenir;
+}
+.deliveryTime .timeHeader {
+  font-weight: 900;
+  font-size: 18px;
+}
+.deliveryTime .time {
+  font-size: 14px;
+}
+.box .btnBox, .box2 .btnBox {
+    background: #433434;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #FFFFFF;
+    font-family: 'Lexend Deca', sans-serif;
+}

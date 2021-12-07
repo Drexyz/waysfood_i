@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@800&display=swap');
+
+.Transaction {
+    margin-top: 73px;
+    margin-left: 150px;
+}
+.Transaction h4 {
+    font-family: 'Abhaya Libre', serif;
+    font-weight: 800;
+    font-size: 36px;
+    margin-bottom: 50px;
+}
+.Transaction th {
+    background: #E5E5E5;
+}
+.Transaction th, tr, td {
+    border: 1px solid #828282;
+    border-collapse: collapse;
+}
+.Transaction tr {
+    background: #FFFFFF;
+    height: 40px;
+}
+.Transaction td {
+    padding-left: 10px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+}
+.Transaction .th {
+    background: #E5E5E5;
+    height: 40px;
+    font-weight: bold;
+    font-size: 14px;
+}
+.th .no {
+    width: 72px;
+}
+.th .name {
+    width: 183px;
+}
+.th .address {
+    width: 280px;
+}
+.th .order {
+    width: 191px;
+}
+.th .status {
+    width: 160px;
+}
+.th .action {
+    width: 191px;
+    text-align: center;
+}
+.Transaction .actionTd {
+    display: flex;
+    justify-content: space-around;
+    border: none;
+    align-items: center;
+    height: 39px;
+    padding-left: 0;
+}
+.Transaction td button {
+    width: 80px;
+    height: 20px;
+    color: #FFFFFF;
+    font-family: avenir;
+    font-weight: 900;
+    font-size: 13px;
+    border: none;
+    border-radius: 5px;
+}
+.Transaction td .cancelBtn {
+    background: #FF0742;
+}
+.Transaction td .ApproveBtn {
+    background: #0ACF83;
+}

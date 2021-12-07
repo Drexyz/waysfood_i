@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@800&display=swap');
+@font-face {
+    font-family: avenir;
+    src: url("./components/avenir_ff/AvenirLTStd-Book.otf") format("opentype");
+}
+
+.editProfile {
+    /* background: chartreuse; */
+    margin: 40px auto 20px;
+    width: 1157px;
+}
+.editProfile h4{
+    font-weight: 800;
+    font-size: 36px;
+    font-family: 'Abhaya Libre', serif;
+    margin-left: 25px;
+    margin-bottom: 26px;
+}
+.editProfile input, label{
+    height: 50px;
+    margin-bottom: 27px;
+}
+.editProfile input{
+    background: rgba(210, 210, 210, 0.25);
+    border: 2px solid #766C6C;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: #1F1F1F;
+    font-family: avenir;
+    padding-left: 10px;
+}
+.editProfile .inputName {
+    width: 927px;
+}
+.editProfile .inputFile {
+    position: flex;
+    justify-content: space-between;
+    margin-left: 15px;
+    margin-bottom: 14px;
+    text-align: center;
+    padding: 10px 10px 12px 10px;
+    border: 2px solid #766C6C;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background: rgba(210, 210, 210, 0.25);
+    font-size: 18px;
+    color: #1F1F1F;
+    font-family: avenir;
+    margin-top: 400;
+}
+.inputFile img {
+    margin-left: 62px;
+}
+.editProfile .inputEmail {
+    width: 1157px;
+}
+.editProfile .inputPhone {
+    width: 1157px;
+}
+.editProfile .inputLocation {
+    width: 903px;
+}
+.editProfile .btnLocation {
+    width: 222px;
+    height: 50px;
+    margin-left: 29px;
+    background: #433434;
+    border-radius: 5px;
+    font-family: avenir;
+    font-weight: 800;
+    font-size: 14px;
+    color: #FFFFFF;
+}
+.btnLocation img{
+    margin-left: 10px;
+}
+.btnSave {
+    width: 260px;
+    height: 40px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #FFFFFF;
+    background: #433434;
+    border-radius: 5px;
+    margin-top: 50px;
+    margin-left: 900px;
+}
+.map {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, 0);
+}
+.map .box {
+    width: 419px;
+    height: 185px;
+    background: #FFFFFF;
+    box-shadow: 10px -12px 11px -6px rgba(0, 0, 0, 0.25);
+    border-radius: 5px 5px 0px 0px;
+    position: absolute;
+    bottom: 0;
+    left: 30%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.box .titleBox {
+    font-weight: 900;
+    font-size: 18px;
+    font-family: avenir;
+}
+.box .direction {
+    display: flex;
+    align-items: center;
+}
+.direction img {
+    width: 55px;
+    height: 55px;
+    margin-right: 24px;
+}
+.direction .address {
+    display: flex;
+    flex-direction: column;
+    font-family: avenir;
+}
+.address .addressName {
+    font-weight: 900;
+    font-size: 13px;
+}
+.address .addressDetail {
+    font-size: 12px;
+}
+.box .btnBox {
+    background: #433434;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #FFFFFF;
+    font-family: 'Lexend Deca', sans-serif;
+}
+.preview {
+  margin-left: 70vw;
+  margin-bottom: 1em;
+}
