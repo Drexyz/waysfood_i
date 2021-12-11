@@ -71,7 +71,7 @@ exports.getPartnerProducts = async (req, res) => {
 
 exports.getProduct = async (req, res) => {
   try {
-    const productDetail = await product.findOne({
+    let productDetail = await product.findOne({
       where: {
         id: req.params.id
       },
@@ -93,6 +93,8 @@ exports.getProduct = async (req, res) => {
         },
       },
     })
+
+    productDetail.image = process.env.PATH_FILE + productDetail.image; 
 
     res.send({
       status: "success",
@@ -185,15 +187,24 @@ exports.editProduct = async (req, res) => {
   } else {
     
     try {
-      //delete file
-      fs.unlink( 'uploads/' + checkProduct.image, (err) => { if (err) throw err; } );
+      if (!req.file){
+        //update
+        await product.update({...req.body}, {
+          where: {
+            id,
+          },
+        });
+      } else {
+        //delete file
+        fs.unlink( 'uploads/' + checkProduct.image, (err) => { if (err) throw err; } );
 
-      //update
-      await product.update({...req.body, image: req.file.filename,}, {
-        where: {
-          id,
-        },
-      });
+        //update
+        await product.update({...req.body, image: req.file.filename,}, {
+          where: {
+            id,
+          },
+        });
+      }
 
       //get data for response
       const editedProduct = await product.findOne({

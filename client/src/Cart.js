@@ -6,6 +6,7 @@ import styles from "./Cart.module.css";
 import { Modal } from "react-bootstrap";
 import React, { useState, useEffect, useCallback, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import {io} from 'socket.io-client';
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -14,6 +15,7 @@ import {OrderContext} from "./context/orderContext"
 //API config
 import { API } from "./config/api";
 
+let socket
 function Cart() {
   let navigate = useNavigate();
   const [map, setMap] = useState(false);
@@ -166,6 +168,7 @@ function Cart() {
   
   //did mount -> get Profile
   useEffect(() => {
+    socket = io('http://localhost:5000')
     getData();
     getTransactions();
   }, []);
@@ -250,9 +253,10 @@ function Cart() {
       const body = JSON.stringify(orderMenus);
 
       // insert data to transactions
-      await API.post('/transaction', body, config);
-      getTransactions()
+      const orderTransaction = await API.post('/transaction', body, config);
       
+      getTransactions()
+      socket.emit("load transactions", orderTransaction.data.data.transactions[0].seller.id)
     } catch (error) {
       console.log(error)
     }
@@ -274,6 +278,8 @@ function Cart() {
 
       const response = await API.patch(`/transaction/${finishID}`, body, config);
       
+      //console.log(response)
+      socket.emit("load transactions", response.data.data.transaction.seller)
       navigate('/profile');
     } catch (error) {
       console.log(error)

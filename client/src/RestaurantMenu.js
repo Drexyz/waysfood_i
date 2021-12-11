@@ -26,12 +26,12 @@ function RestaurantMenu(){
       }
   }
   const getMenus = async () => {
-      try{
-        const response = await API.get(`/products/${restoId}`);
-        setMenus(response.data.data.products);
-      } catch (error) {
-        console.log(error);
-      }
+    try{
+      const response = await API.get(`/products/${restoId}`);
+      setMenus(response.data.data.products);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   //did mount -> get data needed

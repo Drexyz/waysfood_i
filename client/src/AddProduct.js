@@ -52,7 +52,7 @@ function AddProduct(){
     
         console.log(response);
     
-        navigate('/');
+        navigate('/myproduct');
       } catch (error) {
         console.log(error);
       }
@@ -69,7 +69,13 @@ function AddProduct(){
                     <label htmlFor="file" className={styles.inputFile}>Attach Image<img src="./images/attachFile.png" alt="" /></label>
                         <input type="file" hidden id="file" name="image" 
                           onChange={handleChange} aria-label="File browser example" />
-                        <div id="preview"><img src={preview} /></div>
+                        <div id="preview" className={styles.preview}>
+                          <img src={preview} style={{
+                            maxWidth: "150px",
+                            maxHeight: "150px",
+                            objectFit: "content",
+                          }}/>
+                        </div>
                     <input type="number" placeholder="Price" name='price'
                       className={styles.inputPrice} onChange={handleChange}/>
                     <button className={styles.btnSave}>Save</button>

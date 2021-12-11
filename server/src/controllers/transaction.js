@@ -316,6 +316,7 @@ exports.editTransaction = async (req, res) => {
         transaction: {
           id: editedTransaction.id,
           userOrder: editedTransaction.user,
+          seller: editedTransaction.partner_id,
           status: editedTransaction.status,
           order: orderedProducts
         }

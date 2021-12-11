@@ -11,6 +11,8 @@ import Cart from './Cart';
 import RestaurantMenu from './RestaurantMenu';
 import Transaction from './Transaction';
 import AddProduct from './AddProduct';
+import MyProducts from './pages/MyProduct';
+import EditProduct from './pages/EditProduct';
 
 // Get API config & setAuthToken
 import { API, setAuthToken } from './config/api';
@@ -64,6 +66,8 @@ function App() {
         <Route path="restaurantmenu/:restoId" element={<RestaurantMenu />} />
         <Route path="addproduct" element={<AddProduct />} />
         <Route path="transaction" element={<Transaction />} />
+        <Route path="myproduct" element={<MyProducts/>}/>
+        <Route path="editproduct/:productId" element={<EditProduct />} />
       </Routes>
   )
 }

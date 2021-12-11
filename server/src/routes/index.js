@@ -32,7 +32,7 @@ router.get("/products", getProducts);
 router.get("/products/:id", getPartnerProducts);
 router.get("/product/:id", getProduct);
 router.post("/product", auth, uploadFile('image'), addProduct);
-router.patch("/product/:id", auth, uploadFile('image'), editProduct);
+router.patch("/product/:id", auth, updateFile('image'), editProduct);
 router.delete("/product/:id", auth, deleteProduct);
 
 //route transaction

@@ -12,6 +12,7 @@ function Profile() {
   const months = [ "January", "February", "March", "April", "May", "June", 
            "July", "August", "September", "October", "November", "December" ];
   const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  
   //get detail user
   const getUser = async () => {
     try {
@@ -42,6 +43,7 @@ function Profile() {
               (sum, el) => sum + (el.price * el.qty),0
             )
             return {
+            id: elem.id,
             restaurant: elem.userOrder.fullName,
             date: elem.order_date.split('T')[0],
             price,
@@ -86,7 +88,7 @@ function Profile() {
           
           {transaction.map(elem =>{
             return(
-              <div className={styles.transactionBox}>
+              <div className={styles.transactionBox} key={elem.id}>
                 <div className={styles.descTransaction}>
                   <p className={styles.restoName}>{elem.restaurant}</p>
                   <p className={styles.date}>

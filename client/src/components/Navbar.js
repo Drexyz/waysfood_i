@@ -214,6 +214,18 @@ function Navbar() {
             </Link>
             <Link
               className="dropdownItem"
+              to="/myproduct"
+              style={{ textDecoration: "none" }}
+            >
+              <img
+                src="./images/menus.png"
+                className="dropdownPict"
+                alt="myproduct"
+              />
+              <span className="dropdownText">My Product</span>
+            </Link>
+            <Link
+              className="dropdownItem"
               to="/addproduct"
               style={{ textDecoration: "none" }}
             >

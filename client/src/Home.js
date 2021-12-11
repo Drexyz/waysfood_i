@@ -3,13 +3,16 @@ import "./App.css";
 import React, { useState, useContext, useEffect } from "react";
 import { Modal, Dropdown, NavDropdown, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import {io} from 'socket.io-client';
 import styles from "./Transaction.module.css";
 
+//context
 import { UserContext } from './context/userContext';
 
 //API config
 import { API, setAuthToken } from "./config/api";
 
+let socket
 function App() {
   let navigate = useNavigate();
   //state
@@ -82,6 +85,7 @@ function App() {
         role: ""
       });
 
+      socket.emit("load users")
       //notification
       if (response.data.status === "success") {
         const alert = (
@@ -89,7 +93,7 @@ function App() {
             Registration Success
           </Alert>
         );
-        setMessage(alert);
+        setMessage(alert);        
       } else {
         const alert = (
           <Alert variant="danger" className="py-1">
@@ -248,12 +252,74 @@ function App() {
   }
 
   //get restaurant
-  const getRestaurants = async () => {
-    try {
-      const response = await API.get('/users');
-      
+  const getRestaurants = () => {
+      //const response = await API.get('/users');
+      socket.emit("load users")
+
+      // socket.on("users", (response) => {
+      //   console.log(response)
+      //   // get restaurants
+      //   let resto = response.data.users.filter(
+      //     restaurant => restaurant.role === 'partner'
+      //   )
+      //   resto = resto.map(
+      //     restaurant => {return { ...restaurant, menu: `/restaurantmenu/${restaurant.id}`}}
+      //   )
+      //   const popResto = resto.filter(
+      //     restaurant => restaurant.id === 7 || restaurant.id === 8 || restaurant.id === 9 || restaurant.id === 10
+      //   )
+      //   const filresto = resto.filter( restaurant => !popResto.includes(restaurant) ) 
+        
+      //   setRestaurants(filresto)
+      //   setPopRestaurants(popResto)        
+      // })
+  };
+  // //get Transactions for partner
+  const getTransactions = () => {
+    //console.log(state)
+    if (state.user.role === 'partner') {
+      //let response = await API.get(`/transactions/${state.user.id}`);
+      socket.emit("load transactions", state.user.id)
+
+      // if (response.data.status !== 'failed') {
+      //   const dataTable = response.data.data.transactions.map(
+      //     elem => {
+      //       elem.order = elem.order.map(el => {return el.title})
+      //       let products = elem.order.reduce((sum, el) => sum+','+el)
+      //       if (products.length > 25) {
+      //         products = products.slice(0, 22) + '..'; 
+      //       }
+      //       return {
+      //         id: elem.id,
+      //         name: elem.userOrder.fullName,
+      //         address: elem.userOrder.location,
+      //         products,
+      //         status: elem.status
+      //       }
+      //     }
+      //   )
+        
+      //   //console.log(dataLocations)
+      //   setDatas(dataTable);
+      // }
+    }
+  }
+
+  //did mount -> get users
+  useEffect(() => {
+    socket = io('http://localhost:5000')
+    //get data user & transactions
+    //console.log(state)
+    socket.emit("load users");
+    if (state.user.role === 'partner') {
+      socket.emit("load transactions", state.user.id)
+    }
+
+    //receive data user & transactions
+    socket.on("users", (response) => {
+      //console.log(response)
       // get restaurants
-      let resto = response.data.data.users.filter(
+      let resto = response.data.users.filter(
         restaurant => restaurant.role === 'partner'
       )
       resto = resto.map(
@@ -265,18 +331,12 @@ function App() {
       const filresto = resto.filter( restaurant => !popResto.includes(restaurant) ) 
       
       setRestaurants(filresto)
-      setPopRestaurants(popResto)
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  // //get Transactions for partner
-  const getTransactions = async () => {
-    console.log(state)
-    if (state.user.role === 'partner') {
-      let response = await API.get(`/transactions/${state.user.id}`);
-      if (response.data.status !== 'failed') {
-        const dataTable = response.data.data.transactions.map(
+      setPopRestaurants(popResto)        
+    })
+    socket.on('transactions', (response) => {
+      if (response.user === state.user.id) {
+        //console.log(state)
+        const dataTable = response.data.transactions.map(
           elem => {
             elem.order = elem.order.map(el => {return el.title})
             let products = elem.order.reduce((sum, el) => sum+','+el)
@@ -293,26 +353,47 @@ function App() {
           }
         )
         
-        //console.log(dataLocations)
         setDatas(dataTable);
       }
-    }
-  }
+    })
 
-  //did mount -> get users
-  useEffect(() => {
-    getRestaurants();
-    if (state.user.role === 'partner') {
-      getTransactions()
+    return () => {
+        socket.disconnect()
     }
   }, []);
-
+  
+  
   //did update to partner -> get transactions
   useEffect(() => {
+    //console.log(state)
     if (state.user.role === 'partner') {
-      getTransactions()
+      socket.emit("load transactions", state.user.id)
     }
+    // socket.on('transactions', (response) => {
+    //   if (response.user === state.user.id) {
+    //     console.log(response)
+    //     const dataTable = response.data.transactions.map(
+    //       elem => {
+    //         elem.order = elem.order.map(el => {return el.title})
+    //         let products = elem.order.reduce((sum, el) => sum+','+el)
+    //         if (products.length > 25) {
+    //           products = products.slice(0, 22) + '..'; 
+    //         }
+    //         return {
+    //           id: elem.id,
+    //           name: elem.userOrder.fullName,
+    //           address: elem.userOrder.location,
+    //           products,
+    //           status: elem.status
+    //         }
+    //       }
+    //     )
+        
+    //     setDatas(dataTable);
+    //   }
+    // })
   }, [state]);
+  
 
   return (
     <>
@@ -320,7 +401,7 @@ function App() {
       {state.user.role === "partner" && state.isLogin ? (
         <div>
           <nav>
-            <img src="./images/Icon.svg" className="icon" alt="icon" onClick={() => console.log(state)}/>
+            <img src="./images/Icon.svg" className="icon" alt="icon" onClick={getTransactions}/>
             <span className="buttons">
               <NavDropdown
                 id="dropdown-basic"
@@ -343,6 +424,18 @@ function App() {
                     alt="profile"
                   />
                   <span className="dropdownText">Profile</span>
+                </Link>
+                <Link
+                  className="dropdownItem"
+                  to="myproduct"
+                  style={{textDecoration: "none"}}
+                >
+                  <img
+                    src="./images/menus.png"
+                    className="dropdownPict"
+                    alt="myproduct"
+                  />
+                  <span className="dropdownText">My Product</span>
                 </Link>
                 <Link
                   className="dropdownItem"
