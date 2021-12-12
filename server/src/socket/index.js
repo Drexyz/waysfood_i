@@ -98,6 +98,51 @@ const socketIo = (io) => {
       console.log(error);
     }
     })
+    socket.on("load user transaction", async(transaction_id) => {
+      //get transaction
+      const transactionData = await transaction.findOne({
+        where: {
+          id: transaction_id
+        },
+        include: {
+          model: user,
+          as: "user",
+          attributes: {
+            exclude: ["image", "gender", "phone", "role", "password", "createdAt", "updatedAt"],
+          },
+        },
+      })
+      let orderedProducts = await order.findAll({
+        where: {
+          transaction_id: transaction_id,
+        },
+        include: {
+          model: product,
+          as: "product",
+        }
+      })
+      orderedProducts = orderedProducts.map(orderedProduct => {
+        return {
+          id: orderedProduct.product.id,
+          title: orderedProduct.product.title,
+          price: orderedProduct.product.price,
+          image: orderedProduct.product.image,
+          qty: orderedProduct.qty
+        }
+      })
+
+      io.sockets.emit('user transaction', {
+        status: "success",
+        data: {
+          transaction: {
+            id: transactionData.id,
+            userOrder: transactionData.user,
+            status: transactionData.status,
+            order: orderedProducts
+          }
+        }
+      });
+    })
 
     socket.on('disconnect', function(){
       console.log('disconnect from socket')

@@ -171,7 +171,33 @@ function Cart() {
     socket = io('http://localhost:5000')
     getData();
     getTransactions();
+
+    return () => {
+      socket.disconnect()
+    }
   }, []);
+
+  useEffect(() => {
+    socket.on('user transaction', (response) => {
+      if (mytransaction !== null) {
+        if (response.data.transaction.id === mytransaction.id){
+          if (response.data.transaction.status === 'on the way') {
+            const updateTransaction = {
+              id: mytransaction.id,
+              order: mytransaction.order,
+              status: response.data.transaction.status,
+              seller: mytransaction.seller,
+              qty: mytransaction.qty,
+              total: mytransaction.total
+            }
+            setMytransaction(updateTransaction)
+          } else {
+            setMytransaction(null);
+          } 
+        }
+      }
+    })
+  }, [mytransaction]);
 
   //form handle
   const increment = (menuID) => {

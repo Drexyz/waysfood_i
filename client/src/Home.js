@@ -2,9 +2,10 @@ import "./App.css";
 /* import Navbar from './components/Navbar'; */
 import React, { useState, useContext, useEffect } from "react";
 import { Modal, Dropdown, NavDropdown, Alert } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {io} from 'socket.io-client';
-import styles from "./Transaction.module.css";
+//import styles from "./Transaction.module.css";
+import TransactionTable from "./components/TransactionTable";
 
 //context
 import { UserContext } from './context/userContext';
@@ -14,7 +15,6 @@ import { API, setAuthToken } from "./config/api";
 
 let socket
 function App() {
-  let navigate = useNavigate();
   //state
   const [register, setRegister] = useState(false);
   const [login, setLogin] = useState(false);
@@ -22,7 +22,6 @@ function App() {
   const [message, setMessage] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
   const [popRestaurants, setPopRestaurants] = useState([]);
-  const [datas, setDatas] = useState([]);
 
   //register form (state)
   const [regForm, setRegForm] = useState({
@@ -89,14 +88,14 @@ function App() {
       //notification
       if (response.data.status === "success") {
         const alert = (
-          <Alert variant="success" className="py-2 mb-0">
+          <Alert variant="success" onClose={() => setMessage(null)} className="py-2 mb-0" dismissible>
             Registration Success
           </Alert>
         );
         setMessage(alert);        
       } else {
         const alert = (
-          <Alert variant="danger" className="py-1">
+          <Alert variant="danger" onClose={() => setMessage(null)} className="py-1" dismissible>
             Failed
           </Alert>
         );
@@ -104,7 +103,7 @@ function App() {
       }
     } catch (error) {
       const alert = (
-        <Alert variant="danger" className="py-1">
+        <Alert variant="danger" onClose={() => setMessage(null)} className="py-1" dismissible>
           Failed
         </Alert>
       );
@@ -143,18 +142,19 @@ function App() {
         if (localStorage.token) {
           setAuthToken(localStorage.token);
         }
+
         const alert = (
-          <Alert variant="success" className="py-2 mb-0">
+          <Alert variant="success" onClose={() => setMessage(null)} className="py-2 mb-0" dismissible>
             Login Success
           </Alert>
         );
         setMessage(alert);
-        if (state.user.role === 'partner') {
-          getTransactions()
-        }
+        // if (state.user.role === 'partner') {
+        //   getTransactions()
+        // }
       } else {
         const alert = (
-          <Alert variant="danger" className="py-1 mb-0">
+          <Alert variant="danger" onClose={() => setMessage(null)} className="py-1 mb-0" dismissible>
             Login Failed
           </Alert>
         );
@@ -162,7 +162,7 @@ function App() {
       }
     } catch (error) {
       const alert = (
-        <Alert variant="danger" className="py-1 mb-0">
+        <Alert variant="danger" onClose={() => setMessage(null)} className="py-1 mb-0" dismissible>
           Failed
         </Alert>
       );
@@ -185,137 +185,20 @@ function App() {
     payload: '',
   });
 
-  //approve & Cancel transactions
-  const approveTransaction = async (dataID) => {
-    try{
-      //Configuration Content-type
-      const config = {
-        headers: {
-          'Content-type': 'application/json',
-        },
-      };
-
-      //prepare body req
-      const status = {
-        status: "on the way"
-      }
-      const body = JSON.stringify(status);
-
-      //update transaction
-      await API.patch(`/transaction/${dataID}`, body, config);
-      
-      //change datas state
-      const currentDatas = datas.map(
-        elem => {
-          if (elem.id === dataID) {
-            elem.status = "on the way"
-          }
-          return elem 
-        }
-      )
-      setDatas(currentDatas);
-
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const cancelTransaction = async (dataID) => {
-    try{
-      //Configuration Content-type
-      const config = {
-        headers: {
-          'Content-type': 'application/json',
-        },
-      };
-
-      //prepare body req
-      const status = {
-        status: "cancel"
-      }
-      const body = JSON.stringify(status);
-
-      await API.patch(`/transaction/${dataID}`, body, config);
-      
-      //change datas state
-      const currentDatas = datas.map(
-        elem => {
-          if (elem.id === dataID) {
-            elem.status = "cancel"
-          }
-          return elem 
-        }
-      )
-      setDatas(currentDatas);
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  //get restaurant
-  const getRestaurants = () => {
-      //const response = await API.get('/users');
-      socket.emit("load users")
-
-      // socket.on("users", (response) => {
-      //   console.log(response)
-      //   // get restaurants
-      //   let resto = response.data.users.filter(
-      //     restaurant => restaurant.role === 'partner'
-      //   )
-      //   resto = resto.map(
-      //     restaurant => {return { ...restaurant, menu: `/restaurantmenu/${restaurant.id}`}}
-      //   )
-      //   const popResto = resto.filter(
-      //     restaurant => restaurant.id === 7 || restaurant.id === 8 || restaurant.id === 9 || restaurant.id === 10
-      //   )
-      //   const filresto = resto.filter( restaurant => !popResto.includes(restaurant) ) 
-        
-      //   setRestaurants(filresto)
-      //   setPopRestaurants(popResto)        
-      // })
-  };
   // //get Transactions for partner
-  const getTransactions = () => {
-    //console.log(state)
-    if (state.user.role === 'partner') {
-      //let response = await API.get(`/transactions/${state.user.id}`);
-      socket.emit("load transactions", state.user.id)
+  // const getTransactions = () => {
+  //   if (state.user.role === 'partner') {
+  //     socket.emit("load transactions", state.user.id)
+  //   }
+  // }
 
-      // if (response.data.status !== 'failed') {
-      //   const dataTable = response.data.data.transactions.map(
-      //     elem => {
-      //       elem.order = elem.order.map(el => {return el.title})
-      //       let products = elem.order.reduce((sum, el) => sum+','+el)
-      //       if (products.length > 25) {
-      //         products = products.slice(0, 22) + '..'; 
-      //       }
-      //       return {
-      //         id: elem.id,
-      //         name: elem.userOrder.fullName,
-      //         address: elem.userOrder.location,
-      //         products,
-      //         status: elem.status
-      //       }
-      //     }
-      //   )
-        
-      //   //console.log(dataLocations)
-      //   setDatas(dataTable);
-      // }
-    }
-  }
-
-  //did mount -> get users
+  //did mount -> get users, socket
   useEffect(() => {
     socket = io('http://localhost:5000')
     //get data user & transactions
-    //console.log(state)
     socket.emit("load users");
-    if (state.user.role === 'partner') {
-      socket.emit("load transactions", state.user.id)
-    }
-
-    //receive data user & transactions
+    
+    //receive data user
     socket.on("users", (response) => {
       //console.log(response)
       // get restaurants
@@ -333,198 +216,17 @@ function App() {
       setRestaurants(filresto)
       setPopRestaurants(popResto)        
     })
-    socket.on('transactions', (response) => {
-      if (response.user === state.user.id) {
-        //console.log(state)
-        const dataTable = response.data.transactions.map(
-          elem => {
-            elem.order = elem.order.map(el => {return el.title})
-            let products = elem.order.reduce((sum, el) => sum+','+el)
-            if (products.length > 25) {
-              products = products.slice(0, 22) + '..'; 
-            }
-            return {
-              id: elem.id,
-              name: elem.userOrder.fullName,
-              address: elem.userOrder.location,
-              products,
-              status: elem.status
-            }
-          }
-        )
-        
-        setDatas(dataTable);
-      }
-    })
 
     return () => {
         socket.disconnect()
     }
   }, []);
-  
-  
-  //did update to partner -> get transactions
-  useEffect(() => {
-    //console.log(state)
-    if (state.user.role === 'partner') {
-      socket.emit("load transactions", state.user.id)
-    }
-    // socket.on('transactions', (response) => {
-    //   if (response.user === state.user.id) {
-    //     console.log(response)
-    //     const dataTable = response.data.transactions.map(
-    //       elem => {
-    //         elem.order = elem.order.map(el => {return el.title})
-    //         let products = elem.order.reduce((sum, el) => sum+','+el)
-    //         if (products.length > 25) {
-    //           products = products.slice(0, 22) + '..'; 
-    //         }
-    //         return {
-    //           id: elem.id,
-    //           name: elem.userOrder.fullName,
-    //           address: elem.userOrder.location,
-    //           products,
-    //           status: elem.status
-    //         }
-    //       }
-    //     )
-        
-    //     setDatas(dataTable);
-    //   }
-    // })
-  }, [state]);
-  
 
   return (
     <>
       {message && message}
       {state.user.role === "partner" && state.isLogin ? (
-        <div>
-          <nav>
-            <img src="./images/Icon.svg" className="icon" alt="icon" onClick={getTransactions}/>
-            <span className="buttons">
-              <NavDropdown
-                id="dropdown-basic"
-                title={
-                  <img
-                    className="avatar"
-                    src={state.user.image}
-                    alt="avatar"
-                  />
-                }
-              >
-                <Link
-                  className="dropdownItem"
-                  to="profile"
-                  style={{textDecoration: "none"}}
-                >
-                  <img
-                    src="./images/user.png"
-                    className="dropdownPict"
-                    alt="profile"
-                  />
-                  <span className="dropdownText">Profile</span>
-                </Link>
-                <Link
-                  className="dropdownItem"
-                  to="myproduct"
-                  style={{textDecoration: "none"}}
-                >
-                  <img
-                    src="./images/menus.png"
-                    className="dropdownPict"
-                    alt="myproduct"
-                  />
-                  <span className="dropdownText">My Product</span>
-                </Link>
-                <Link
-                  className="dropdownItem"
-                  to="addproduct"
-                  style={{ textDecoration: "none" }}
-                >
-                  <img
-                    src="./images/add product.png"
-                    className="dropdownPict"
-                    alt="add product"
-                  />
-                  <span className="dropdownText">Add Product</span>
-                </Link>
-                <Dropdown.Divider />
-                <Dropdown.Item
-                  className="dropdownItem"
-                  href="#"
-                  onClick={logout}
-                  style={{padding: 0}}
-                >
-                  <img
-                    src="./images/logout.png"
-                    className="dropdownPict"
-                    alt="logout"
-                  />
-                  <span className="dropdownText">Logout</span>
-                </Dropdown.Item>
-              </NavDropdown>
-            </span>
-          </nav> 
-
-          <div>
-      <div className={styles.Transaction}>
-        <h4>Income Transaction</h4>
-        <table>
-          <tr className={styles.th}>
-            <td className={styles.no}>No</td>
-            <td className={styles.name}>Name</td>
-            <td className={styles.address}>Address</td>
-            <td className={styles.order}>Products Order</td>
-            <td className={styles.status}>Status</td>
-            <td className={styles.action}>Action</td>
-          </tr>
-        {datas.map((data, index) => {return(
-          <tr key={index}>
-            <td>{index+1}</td>
-            <td>{data.name}</td>
-            <td>Tangerang</td>
-            <td>{data.products}</td>
-            {data.status === 'waiting approve' ? (
-              <>
-              <td style={{ color: "#FF9900" }}>Waiting Approve</td>
-              <td className={styles.actionTd}>
-                <button className={styles.cancelBtn} onClick={() => cancelTransaction(data.id)}>Cancel</button>
-                <button className={styles.ApproveBtn} onClick={() => approveTransaction(data.id)}>Approve</button>
-              </td>
-              </>  
-            ):(
-              data.status === 'on the way' ? (
-              <>
-              <td style={{ color: "#00D1FF" }}>On The Way</td>
-              <td className={styles.actionTd}>
-                <img src="./images/done.png" alt="status pict" />
-              </td>
-              </>
-              ):(
-                data.status === 'success' ? (
-                <>
-                <td style={{ color: "#78A85A" }}>Success</td>
-                <td className={styles.actionTd}>
-                  <img src="./images/done.png" alt="status pict" />
-                </td>
-                </>
-              ):(
-                <>
-                <td style={{ color: "#E83939" }}>Cancel</td>
-                <td className={styles.actionTd}>
-                  <img src="./images/cancel.png" alt="status pict" />
-                </td>
-                </>
-              ))
-            )}
-          </tr>
-        )})}
-        </table>
-      </div>
-    </div>
-  
-        </div>
+        <TransactionTable/>
       ) : (
         <div>
           <div className="Header">
@@ -653,9 +355,14 @@ function App() {
                 {popRestaurants.map(popRestaurant => {
                   return(
                     <div key={popRestaurant.id}>
-                      <Link to={popRestaurant.menu}>
-                        <img src={popRestaurant.image} alt="icon" />
-                      </Link>
+                      {!state.isLogin ? (
+                          <img src={popRestaurant.image} onClick={handLog} 
+                          style={{cursor: 'pointer'}} alt="icon" />
+                        ) : (
+                        <Link to={popRestaurant.menu}>
+                          <img src={popRestaurant.image} alt="icon" />
+                        </Link>
+                      ) }
                       <p>{popRestaurant.fullName}</p>
                     </div>    
                   )
@@ -669,9 +376,14 @@ function App() {
                 {restaurants.map(restaurant => {
                   return(
                     <div key={restaurant.id}>
-                      <Link to={restaurant.menu}>
-                        <img src={restaurant.image} alt="icon" />
-                      </Link>
+                      {!state.isLogin ? (
+                        <img src={restaurant.image} onClick={handLog}
+                        style={{cursor: 'pointer'}} alt="icon" />
+                      ) : (
+                        <Link to={restaurant.menu}>
+                          <img src={restaurant.image} alt="icon" />
+                        </Link>
+                      ) }
                       <p>{restaurant.fullName}</p>
                       <p className="distance">0,2 KM</p>
                     </div>    
@@ -679,7 +391,6 @@ function App() {
                 })}
               </div>
             </div>
-
           </div>
         </div>
       )}
