@@ -130,6 +130,7 @@ exports.getUser = async (req, res) => {
             id: userlogin.id,
             fullName: userlogin.fullName,
             email: userlogin.email,
+            location: userlogin.location,
             role: userlogin.role,
             image: process.env.PATH_FILE + userlogin.image,
             token,

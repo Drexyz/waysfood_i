@@ -276,12 +276,15 @@ nav {
 .nearResto .near-restaurant {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    width: 1047px;
 }
 .near-restaurant div {
     width: 245px;
     height: 221px;
     background: #FFFFFF;
     border-radius: 5px;
+    margin-bottom: 15px;
 }
 .near-restaurant div img {
     width: 224px;

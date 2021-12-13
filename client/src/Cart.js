@@ -283,6 +283,8 @@ function Cart() {
       
       getTransactions()
       socket.emit("load transactions", orderTransaction.data.data.transactions[0].seller.id)
+      setOrderedMenus({ type: 'EMPTY_CART' });
+      setSubtotal(0);
     } catch (error) {
       console.log(error)
     }

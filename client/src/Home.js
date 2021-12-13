@@ -1,10 +1,9 @@
 import "./App.css";
-/* import Navbar from './components/Navbar'; */
+import calcDistance from './components/calcDistance';
 import React, { useState, useContext, useEffect } from "react";
 import { Modal, Dropdown, NavDropdown, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {io} from 'socket.io-client';
-//import styles from "./Transaction.module.css";
 import TransactionTable from "./components/TransactionTable";
 
 //context
@@ -184,6 +183,11 @@ function App() {
     type: 'LOGOUT',
     payload: '',
   });
+
+  // const logout = () => {
+  //   console.log(restaurants);
+  //   console.log(state);
+  // }
 
   // //get Transactions for partner
   // const getTransactions = () => {
@@ -385,7 +389,11 @@ function App() {
                         </Link>
                       ) }
                       <p>{restaurant.fullName}</p>
-                      <p className="distance">0,2 KM</p>
+                      {restaurant?.location && state?.user.location ? (
+                        <p className="distance">{calcDistance(state.user.location, restaurant.location)} KM</p>
+                      ):(
+                        <p className="distance">{/* 0,2 KM */}</p>
+                      )}
                     </div>    
                   )
                 })}
